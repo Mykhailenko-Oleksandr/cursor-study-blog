@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   mongodb:
@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD:-studysprint123}
       MONGO_INITDB_DATABASE: ${MONGODB_DATABASE:-studysprint}
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
       - mongodb_data:/data/db
       - mongodb_config:/data/configdb
@@ -18,7 +18,20 @@ services:
     networks:
       - studysprint-network
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/studysprint --quiet
+      test:
+        [
+          "CMD",
+          "mongosh",
+          "--username",
+          "${MONGODB_USER:-studysprint}",
+          "--password",
+          "${MONGODB_PASSWORD:-studysprint123}",
+          "--authenticationDatabase",
+          "admin",
+          "--eval",
+          "db.adminCommand({ping:1})",
+          "--quiet",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -28,7 +41,7 @@ services:
     container_name: studysprint-mongo-express
     restart: unless-stopped
     ports:
-      - '8081:8081'
+      - "8081:8081"
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USER:-studysprint}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD:-studysprint123}
@@ -50,4 +63,3 @@ volumes:
 networks:
   studysprint-network:
     driver: bridge
-
