@@ -39,3 +39,6 @@ Decisions
 - Залишити поточну технологічну стеку: React + Vite + Express + MongoDB.
 - Віддавати перевагу мінімальним змінам і поступовому рефакторингу.
 - Не впроваджувати TypeScript або глобальні архітектурні зміни без окремої домовленості.
+
+## PR branch
+This branch is used to create the PR for the Cursor collaboration plan.
